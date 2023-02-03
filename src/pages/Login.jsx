@@ -1,31 +1,28 @@
 import { motion } from "framer-motion"
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useState } from 'react'
 import { useAuth } from '../contexts/Auth'
 import { Form, Button } from 'react-bootstrap'
-// import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 
 const Login = () => {
-    const navigate = useNavigate()
+    // const [formData, setFormData] = useState({
+    //     email: '',
+    //     password: ''
+    // })
 
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    })
-
-    const { signIn } = useAuth()
+    const { signIn, formData, onChange, error } = useAuth()
     
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault()
 
-        try {
-            await signIn(formData)
-            navigate('/Dashboard')
-          } catch (error) {
-            navigate('/')
-          }
-    }
+    //     try {
+    //         await signIn(formData)
+    //         navigate('/Dashboard')
+    //       } catch (error) {
+    //         navigate('/')
+    //       }
+    // }
 
 return (
 <motion.div className="authentication-wrapper authentication-basic container-p-y" initial={{ opacity: 0 }}
@@ -43,22 +40,25 @@ return (
                 <div className="d-flex justify-content-center mb-3">
                     <h4 className="mb-2">Welcome to Stellar! ⭐</h4>
                 </div>
-                <Form onSubmit={handleSubmit} id='formAuthentication' className='mb-3'>
+                <ToastContainer position='top-center' hideProgressBar='true' />
+                <Form onSubmit={signIn} id='formAuthentication' className='mb-3'>
                     <div className="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <Form.Control type='email' id='email' className='form-control' placeholder='example@gmail.com'
-                            onChange={(e)=> setFormData({...formData, email:e.target.value})}>
+                        <Form.Control name="email" type='email' id='email' className='form-control' placeholder='example@gmail.com'
+                            onChange={onChange} value={formData["email"]} >
                         </Form.Control>
+                        <span className='text-sm text-danger'>{error.email}</span>
                     </div>
                     <div className="mb-3 form-password-toggle">
                         <label class="form-label" for="password">Password</label>
                         <div className="input-group input-group-merge">
-                            <Form.Control type="password" id="password" className='form-control' 
+                            <Form.Control name="password" type="password" id="password" className='form-control' 
                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" 
-                            onChange={(e)=> setFormData({...formData, password:e.target.value})}>
+                            onChange={onChange} value={formData["password"]}>
                             </Form.Control>
                             <span className="input-group-text cursor-pointer"></span>
                         </div>
+                        <span className='text-sm text-danger'>{error.password}</span>
                     </div>
                     <div className="mb-3">
                         <Button variant='primary' className='btn btnprimary d-grid w-100' type="submit"> Log in </Button>
