@@ -11,7 +11,8 @@ const DashboardUI = () => {
     const getRebate = async () => {
         const apiRebate = await axios.get(`${process.env.REACT_APP_API_URL}/totalRebate`, {
             headers:{
-               'Authorization':`Bearer ${token}`, 
+               'Authorization':`Bearer ${token}`,
+               'Access-Control-Allow-Origin': 'https://fly.io/apps/stellarapi/api' 
             }
         })
         setRebate(apiRebate.data.rebate);
