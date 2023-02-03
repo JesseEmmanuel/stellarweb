@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
                 method:'POST',
                 headers: {
                     'Content-type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://fly.io/apps/stellarapi/api'
                 },
                 body: JSON.stringify(data), 
             })
