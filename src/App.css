@@ -82,6 +82,14 @@
 
 }
 
+#card-user{
+    cursor: pointer;
+}
+
+#card-user:hover{
+    background-color: #fef4df;
+}
+
 /* .page-item {
     margin-left: 0.1875rem;
 } */

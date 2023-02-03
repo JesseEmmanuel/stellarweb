@@ -4,17 +4,19 @@ import axios from 'axios'
 import React from 'react'
 
 const DashboardUI = () => {
-    const { token } = useAuth();
-    const [rebate, setRebate] = useState([]);
+    const { token, user } = useAuth();
+    const [startupRebate, setStartupRebate] = useState([]);
+    const [startupStars, setStartupStars] = useState([]);
     const dataFetchedRef = useRef(false);
 
-    const getRebate = async () => {
-        const apiRebate = await axios.get(`${process.env.REACT_APP_API_URL}/totalRebate`, {
+    const getReports = async () => {
+        const apiReports = await axios.get(`${process.env.REACT_APP_API_URL}/summaryReports`, {
             headers:{
                'Authorization':`Bearer ${token}`,
             }
         })
-        setRebate(apiRebate.data.rebate);
+        setStartupRebate(apiReports.data.StartupRebate);
+        setStartupStars(apiReports.data.StartupStars);
     }
 
     useEffect(() => {
@@ -23,7 +25,7 @@ const DashboardUI = () => {
             return;
         }
         dataFetchedRef.current = true;
-        getRebate()
+        getReports()
     })
 return (
     <div className="content-wrapper">
@@ -34,10 +36,9 @@ return (
                         <div className="d-flex align-items-end row">
                             <div className="col-sm-7">
                                 <div className="card-body">
-                                    <h5 className="card-title text-warning">Good Day Juan! 👋</h5>
+                                    <h5 className="card-title text-warning">Good Day {user.firstName}! 👋</h5>
                                     <p className="mb-4">
-                                        Your Total Stars as of today have reached <span className="fw-bold">20,000
-                                            points</span>. Keep up the good
+                                        Your Total Stars as of today have reached <span className="fw-bold">{startupStars} points</span>. Keep up the good
                                         work!
                                     </p>
                                     <a href="/" className="btn btn-sm btn-outline-warning">View Genealogy</a>
@@ -66,15 +67,14 @@ return (
                             </p>
                             <h2>
                             <span
-                                className="badge bg-warning">₱ {rebate}.00
+                                className="badge bg-warning">₱ {startupRebate}.00
                                 </span>
                             </h2>
 
                             <p className="demo-inline-spacing">
                                 <a className="btn btn-outline-dark mx-2" href="/"
                                     style={{pointerEvents:"none", borderColor:"white"}}>
-                                    <i className='bx bxs-star mb-1 text-white'></i><span className="text-white">10,000
-                                        points</span>
+                                    <i className='bx bxs-star mb-1 text-white'></i><span className="text-white"> {startupStars} points</span>
                                 </a>
                                 <a className="btn btn-warning" href="/">
                                     <i className='bx bxs-wallet mb-1'></i> Encash

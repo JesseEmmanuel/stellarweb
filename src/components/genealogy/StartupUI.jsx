@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
+import "../../App.css"
 
 function StartupUI() {
 
@@ -97,17 +98,18 @@ return (
                             </div>
                             <div className="col-md-6">
                                 <div className="card-body">
-                                    <h6 className="card-title">Name: <span className="badge bg-warning">
+                                    <p className="card-title">Name: <strong>
                                             {user.firstName} {user.middleName} {user.lastName}
-                                        </span></h6>
-                                    <h6 className="card-title">Activation Code: <span className="badge bg-info">
+                                        </strong>
+                                    </p>
+                                    <p className="card-title">Activation Code: <strong>
                                             {user.activationCode}
-                                        </span></h6>
+                                        </strong></p>
                                     <p className="card-text"><small className="text-muted"></small>
                                     </p>
                                     <div className="p-2 bd-highlight">
-                                        <Button className='btn btn-secondary' onClick={handleShow}>
-                                            <i className='bx bxs-plus-circle'></i> Add User
+                                        <Button className='btn btn-secondary' onClick={handleShow} style={{backgroundColor:"#FFF2D6", border:"#FFAB00"}}>
+                                        <strong style={{color:"#FFAB00"}}> <i className='bx bxs-plus-circle'></i> Add User</strong> 
                                         </Button>
                                     </div>
                                     {/* <h6 className="card-title mb-0"> <small>Note:</small></h6>
@@ -126,27 +128,26 @@ return (
                {users.map((user) => {
                     return (
                     <div className="col" key={user.id}>
-                        <div className="card h-100">
-                            <img className="card-img-top" src={process.env.PUBLIC_URL+ "/assets/img/profile.png" }
-                                alt=""/>
-                            <div className="card-body">
-                                <div className="d-flex justify-content-center mb-2">
-                                    <img src={process.env.PUBLIC_URL+ "/assets/img/activestar-v2.png" } alt=""
-                                        className="w-px-40 h-auto rounded-circle" />
-                                </div>
-                                <div className="d-flex justify-content-center">
-                                        <span className="badge bg-warning">
-                                            {user.firstName}, {user.lastName} <br />
-                                        </span>
-                                </div>
-                                    <br />
-                                <div className="d-flex justify-content-center">
-                                    <span className="badge bg-secondary">
-                                        <Link to={`/DirectReferrals/${user.id}/view`} className="text-white"> <i class='mb-1 bx bx-show-alt'></i> View </Link> <br />
-                                    </span>
+                        <Link to={`/DirectReferrals/${user.id}/view`}>
+                            <div className="card h-100" id="card-user">
+                                <img className="card-img-top" src={process.env.PUBLIC_URL+ "/assets/img/profile.png" }
+                                    alt=""/>
+                                <div className="card-body">
+                                    {/* <div className="d-flex justify-content-center mb-2">
+                                        <img src={process.env.PUBLIC_URL+ "/assets/img/activestar-v2.png" } alt=""
+                                            className="w-px-40 h-auto rounded-circle" />
+                                    </div> */}
+                                    <div className="d-flex justify-content-center">
+                                            <span>
+                                            <strong className='text-secondary'>  {user.firstName} {user.lastName}</strong> <br />
+                                            </span>
+                                    </div>
+                                        <br />
+                                    <div className="d-flex justify-content-center">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                     );
                })}
