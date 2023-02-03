@@ -45,11 +45,13 @@ return (
                 </div>
                 <Form onSubmit={handleSubmit} id='formAuthentication' className='mb-3'>
                     <div className="mb-3">
-                        <Form.Control type='email' id='email' className='form-control' placeholder='Enter your Email'
+                        <label for="email" class="form-label">Email</label>
+                        <Form.Control type='email' id='email' className='form-control' placeholder='example@gmail.com'
                             onChange={(e)=> setFormData({...formData, email:e.target.value})}>
                         </Form.Control>
                     </div>
                     <div className="mb-3 form-password-toggle">
+                        <label class="form-label" for="password">Password</label>
                         <div className="input-group input-group-merge">
                             <Form.Control type="password" id="password" className='form-control' 
                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" 
