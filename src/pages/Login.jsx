@@ -57,7 +57,7 @@ return (
                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" 
                             onChange={(e)=> setFormData({...formData, password:e.target.value})}>
                             </Form.Control>
-                            <span className="input-group-text cursor-pointer"><i className="bx bx-hide"></i></span>
+                            <span className="input-group-text cursor-pointer"></span>
                         </div>
                     </div>
                     <div className="mb-3">
