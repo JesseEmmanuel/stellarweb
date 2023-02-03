@@ -12,9 +12,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [ token, setToken ] = useState(localStorage.getItem('token'))
-    // const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')))
     const [ user, setUser ] = useState(localStorage.getItem('user'))
-    // const [ error, setError ] = useState([]);
     const navigate = useNavigate()
     const [message, setMessage] = useState([])
     const [error, setError] = useState([])

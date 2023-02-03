@@ -1,28 +1,12 @@
 import { motion } from "framer-motion"
-// import { useState } from 'react'
 import { useAuth } from '../contexts/Auth'
 import { Form, Button } from 'react-bootstrap'
 import { ToastContainer } from 'react-toastify';
 
 
 const Login = () => {
-    // const [formData, setFormData] = useState({
-    //     email: '',
-    //     password: ''
-    // })
 
     const { signIn, formData, onChange, error } = useAuth()
-    
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault()
-
-    //     try {
-    //         await signIn(formData)
-    //         navigate('/Dashboard')
-    //       } catch (error) {
-    //         navigate('/')
-    //       }
-    // }
 
 return (
 <motion.div className="authentication-wrapper authentication-basic container-p-y" initial={{ opacity: 0 }}
