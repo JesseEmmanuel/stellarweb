@@ -1,7 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
+import "../App.css";
+import { motion } from "framer-motion"
+
 function DirectReferralData() {
 
     const { id } = useParams();
@@ -25,7 +28,7 @@ function DirectReferralData() {
     })
 
 return (
-<div className="content-wrapper">
+<motion.div className="content-wrapper" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
     <div className="container-xxl flex-grow-1 container-p-y">
         <div className="row">
             <div className="d-flex justify-content-center">
@@ -41,13 +44,17 @@ return (
                             </div>
                             <div className="col-md-6">
                                 <div className="card-body">
-                                    <h6 className="card-title">Name: <span className="badge bg-warning">
+                                <p className="card-title">Name: <strong>
                                             {user.firstName} {user.middleName} {user.lastName}
-                                        </span></h6>
-                                    <h6 className="card-title">Activation Code: <span className="badge bg-info">
+                                        </strong>
+                                    </p>
+                                    <p className="card-title">Activation Code: <strong>
                                             {user.activationCode}
-                                        </span></h6>
-                                    <p className="card-text"><small className="text-muted"></small>
+                                        </strong>
+                                    </p>
+                                    <p className="card-title">Email: <strong>
+                                            {user.email}
+                                        </strong>
                                     </p>
                                 </div>
                             </div>
@@ -58,35 +65,34 @@ return (
             <div className="row row-cols-1 row-cols-md-6 g-4 mb-5">
                {referrals.map((user) => {
                     return (
-                    <div className="col" key={user.id}>
-                        <div className="card h-100">
-                            <img className="card-img-top" src={process.env.PUBLIC_URL+ "/assets/img/profile.png" }
-                                alt=""/>
-                            <div className="card-body">
-                                <div className="d-flex justify-content-center mb-2">
-                                    <img src={process.env.PUBLIC_URL+ "/assets/img/activestar-v2.png" } alt=""
-                                        className="w-px-40 h-auto rounded-circle" />
+                        <div className="col" key={user.id}>
+                            <Link to={`/DirectReferrals/${user.id}/view`}>
+                                <div className="card h-100" id="card-user">
+                                    <img className="card-img-top" src={process.env.PUBLIC_URL+ "/assets/img/profile.png" }
+                                        alt=""/>
+                                    <div className="card-body">
+                                        {/* <div className="d-flex justify-content-center mb-2">
+                                            <img src={process.env.PUBLIC_URL+ "/assets/img/activestar-v2.png" } alt=""
+                                                className="w-px-40 h-auto rounded-circle" />
+                                        </div> */}
+                                        <div className="d-flex justify-content-center">
+                                                <span>
+                                                <strong className='text-secondary'>  {user.firstName} {user.lastName}</strong> <br />
+                                                </span>
+                                        </div>
+                                            <br />
+                                        <div className="d-flex justify-content-center">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="d-flex justify-content-center">
-                                    <span className="badge bg-warning">
-                                        {user.firstName}, {user.lastName} <br />
-                                    </span>
-                                </div>
-                                <br />
-                                <div className="d-flex justify-content-center">
-                                    <span className="badge bg-secondary">
-                                        <Link to={`/DirectReferrals/${user.id}/view`} className="text-white"> <i class='mb-1 bx bx-show-alt'></i> View </Link> <br />
-                                    </span>
-                                </div>
-                            </div>
+                            </Link>
                         </div>
-                    </div>
-                    );
+                        );
                })}
             </div>
         </div>
     </div>
-</div>)
+</motion.div>)
 }
 
 export default DirectReferralData

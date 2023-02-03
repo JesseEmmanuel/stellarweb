@@ -58,23 +58,6 @@ export const AuthProvider = ({ children }) => {
                 toast.error(e.response.data.message)
             }
         }
-        // try 
-        // {
-        //     const response = await fetch(`${process.env.REACT_APP_API_URL}/authenticate`, {
-        //         method:'POST',
-        //         headers: {
-        //             'Content-type': 'application/json',
-        //         },
-        //         body: JSON.stringify(data), 
-        //     })
-        //     const { token, user } = await response.json()
-        //     setToken(token)
-        //     setUser(user)
-        // }
-        // catch(error)
-        // {
-        //     console.log(error)
-        // }
     }
 
     const signOut = () => {

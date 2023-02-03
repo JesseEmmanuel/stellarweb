@@ -105,7 +105,9 @@ return (
                                     <p className="card-title">Activation Code: <strong>
                                             {user.activationCode}
                                         </strong></p>
-                                    <p className="card-text"><small className="text-muted"></small>
+                                    <p className="card-title">Email: <strong>
+                                            {user.email}
+                                        </strong>
                                     </p>
                                     <div className="p-2 bd-highlight">
                                         <Button className='btn btn-secondary' onClick={handleShow} style={{backgroundColor:"#FFF2D6", border:"#FFAB00"}}>
