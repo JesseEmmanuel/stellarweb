@@ -1,5 +1,4 @@
 import { useContext, createContext, useState, useEffect } from 'react'
-// import axios from 'axios'
 
 const AuthContext = createContext()
 
@@ -32,7 +31,8 @@ export const AuthProvider = ({ children }) => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/authenticate`, {
                 method:'POST',
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-type': 'application/json',
+                    'Access-Control-Allow-Origin': 'https://fly.io/apps/stellarapi/api'
                 },
                 body: JSON.stringify(data), 
             })
