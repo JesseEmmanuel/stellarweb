@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/Auth';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+import StartupUserGrid from './StartupUserData/StartupUserGrid';
 import "../../App.css"
 
 function StartupUI() {
@@ -16,6 +16,7 @@ function StartupUI() {
     const { user, token } = useAuth()
     const [users, setUsers] = useState([])
     const dataFetchedRef = useRef(false);
+    const [loading, setLoading] = useState(false)
 
     const [formValues, setFormValues] = useState({
         activationCode:"",
@@ -28,12 +29,14 @@ function StartupUI() {
     })
 
     const getUsers = async () => {
+        setLoading(true)
             const apiUsers = await axios.get(`${process.env.REACT_APP_API_URL}/view`, {
                 headers: {
                     'Authorization' : `Bearer ${token}`,
                 }
             })  
             setUsers(apiUsers.data.referrals)
+            setLoading(false)
     }
 
     const onChange = (e) => {
@@ -126,37 +129,7 @@ return (
                     </div>
                 </div>
             </div>
-            <div className="row row-cols-1 row-cols-md-6 g-4 mb-5">
-               {users.map((user) => {
-                    return (
-                    <div className="col" key={user.id}>
-                        <Link to={`/DirectReferrals/${user.id}/view`}>
-                            <div className="card h-100" id="card-user">
-                                <img className="card-img-top" src={process.env.PUBLIC_URL+ "/assets/img/profile.png" }
-                                    alt=""/>
-                                <div className="card-body">
-                                    {/* <div className="d-flex justify-content-center mb-2">
-                                        <img src={process.env.PUBLIC_URL+ "/assets/img/activestar-v2.png" } alt=""
-                                            className="w-px-40 h-auto rounded-circle" />
-                                    </div> */}
-                                    <div className="d-flex justify-content-center">
-                                            <span>
-                                            <strong className='text-secondary'>  {user.firstName} {user.lastName}</strong> <br />
-                                            </span>
-                                    </div>
-                                        <br />
-                                    <div className="d-flex justify-content-center">
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
-                    );
-               })}
-               {/* {users.map((user, index) => {
-                    <User key={index} user={user}></User>
-               })} */}
-                <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add User</Modal.Title>
                     </Modal.Header>
@@ -242,7 +215,7 @@ return (
                     <Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-            </div>
+            <StartupUserGrid users={users} loading={loading} />
         </div>
     </div>
 </div>)

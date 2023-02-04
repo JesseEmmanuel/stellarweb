@@ -1,11 +1,10 @@
-import React from "react";
-import { Placeholder } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Placeholder } from 'react-bootstrap'
 
-const DirectReferralData = ({ referrals, loading }) => {
-    if(loading) {
-        return(
-            <div className="row row-cols-1 row-cols-md-6 g-4 mb-5">
+const StartupUserGrid = ({ users, loading }) => {
+    if (loading) {
+        return(<div className="row row-cols-1 row-cols-md-6 g-4 mb-5">
             <div className="col">
                 <div className="card h-100">
                     <img className="card-img-top" src={process.env.PUBLIC_URL+ "/assets/img/profile.png" }
@@ -104,12 +103,12 @@ const DirectReferralData = ({ referrals, loading }) => {
                     </div>
                 </div>
             </div>
-        </div>
-        )
+        </div>)
     }
-    return (<div className="row row-cols-1 row-cols-md-6 g-4 mb-5">
-               {referrals.map((user) => {
-                return (
+  return (
+    <div className="row row-cols-1 row-cols-md-6 g-4 mb-5">
+        {users.map((user) => {
+                    return (
                     <div className="col" key={user.id}>
                         <Link to={`/DirectReferrals/${user.id}/view`}>
                             <div className="card h-100" id="card-user">
@@ -122,7 +121,7 @@ const DirectReferralData = ({ referrals, loading }) => {
                                     </div> */}
                                     <div className="d-flex justify-content-center">
                                             <span>
-                                            <strong className='text-secondary'> {user.firstName} {user.lastName}</strong> <br />
+                                            <strong className='text-secondary'>  {user.firstName} {user.lastName}</strong> <br />
                                             </span>
                                     </div>
                                         <br />
@@ -131,11 +130,10 @@ const DirectReferralData = ({ referrals, loading }) => {
                                 </div>
                             </div>
                         </Link>
-                    </div>
-                    );
-               })}
-            </div>
-        )
+                    </div>)
+            })}
+    </div>
+  )
 }
 
-export default DirectReferralData
+export default StartupUserGrid

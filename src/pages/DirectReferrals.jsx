@@ -1,11 +1,11 @@
 import Header from "../components/Header"
-import DirectReferralData from "../components/DirectReferralData"
+import DirectReferralLayout from "../components/DirectReferralLayout"
 
 const DirectReferral = () => {
 return (
 <div className="layout-page" >
     <Header />
-    <DirectReferralData />
+    <DirectReferralLayout />
 </div>
 )
 }
