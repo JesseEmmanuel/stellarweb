@@ -1,6 +1,6 @@
 import React from 'react'
 
-function StartupLogPagination({ rowPerPage, totalRows, paginate }) {
+function EncashLogPagination({ rowPerPage, totalRows, paginate }) {
     const pageNumbers = [];
 
     for(let i =1; i<= Math.ceil(totalRows / rowPerPage); i++)
@@ -18,4 +18,4 @@ function StartupLogPagination({ rowPerPage, totalRows, paginate }) {
   )
 }
 
-export default StartupLogPagination
+export default EncashLogPagination

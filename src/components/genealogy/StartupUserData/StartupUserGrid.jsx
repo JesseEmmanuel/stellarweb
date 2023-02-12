@@ -110,26 +110,25 @@ const StartupUserGrid = ({ users, loading }) => {
         {users.map((user) => {
                     return (
                     <div className="col" key={user.id}>
-                        <Link to={`/DirectReferrals/${user.id}/view`}>
                             <div className="card h-100" id="card-user">
                                 <img className="card-img-top" src={process.env.PUBLIC_URL+ "/assets/img/profile.png" }
                                     alt=""/>
                                 <div className="card-body">
-                                    {/* <div className="d-flex justify-content-center mb-2">
-                                        <img src={process.env.PUBLIC_URL+ "/assets/img/activestar-v2.png" } alt=""
-                                            className="w-px-40 h-auto rounded-circle" />
-                                    </div> */}
                                     <div className="d-flex justify-content-center">
-                                            <span>
-                                            <strong className='text-secondary'>  {user.firstName} {user.lastName}</strong> <br />
-                                            </span>
+                                        <span>
+                                            <small className='text-secondary'> 
+                                                <strong>{user.firstName} {user.lastName}</strong>
+                                            </small>
+                                        </span>
                                     </div>
                                         <br />
                                     <div className="d-flex justify-content-center">
+                                        <Link to={`/StartupDirectReferrals/${user.id}/view`}>
+                                            <button type="button" class="btn btn-sm btn-warning"><i class='bx bxs-show'></i> View</button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
-                        </Link>
                     </div>)
             })}
     </div>

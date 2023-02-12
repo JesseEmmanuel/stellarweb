@@ -86,9 +86,8 @@
     cursor: pointer;
 }
 
-#card-user:hover{
-    background-color: #fef4df;
-}
+/* #card-user:hover{
+} */
 
 /* .page-item {
     margin-left: 0.1875rem;

@@ -1,24 +1,38 @@
 import { useAuth } from "../contexts/Auth";
 import { useState, useEffect, useRef } from "react";
-import StartupLogPagination from "./logdata/StartupLogPagination";
-import StartupLogData from "./logdata/StartupLogData";
+// import StartupLogPagination from "./logdata/GenealogyLogPagination";
+// import StartupLogData from "./logdata/GenealogyLogData";
+import EncashLogData from "./logdata/EncashLogData";
+import EncashLogPagination from "./logdata/EncashLogPagination";
+import GenealogyLogData from "./logdata/GenealogyLogData";
+import GenealogyLogPagination from "./logdata/GenealogyLogPagination";
 import axios from "axios";
 
 function Logs() {
 
     const { token } = useAuth()
-    const [startupLogs, setStartupLogs] = useState([])
+    const [userLogs, setUserLogs] = useState([])
+    const [encashLogs, setEncashLogs] = useState([])
     const dataFetchedRef = useRef(false)
     const [currentPage, setCurrentPage] = useState(1);
     const [rowPerPage] = useState(10);
 
-    const getStartupLogs = async () => {
-        const apiStartupLogs = await axios.get(`${process.env.REACT_APP_API_URL}/startupLogs`, {
+    const getUserLogs = async () => {
+        const apiStartupLogs = await axios.get(`${process.env.REACT_APP_API_URL}/userLogs`, {
             headers: {
                 'Authorization' : `Bearer ${token}`,
             }
         })
-        setStartupLogs(apiStartupLogs.data.logs)
+        setUserLogs(apiStartupLogs.data.logs)
+    }
+
+    const getEncashLogs = async () => {
+        const apiEncashLogs = await axios.get(`${process.env.REACT_APP_API_URL}/encashmentLogs`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        setEncashLogs(apiEncashLogs.data.encashmentLogs)
     }
 
     useEffect(() => {
@@ -27,13 +41,15 @@ function Logs() {
             return;
         }
         dataFetchedRef.current = true;
-        getStartupLogs();
+        getUserLogs();
+        getEncashLogs();
     });
 
 // Get current Data
     const indexOfLastData = currentPage * rowPerPage;
     const indexOfFirstData = indexOfLastData - rowPerPage;
-    const currentData = startupLogs.slice(indexOfFirstData, indexOfLastData);
+    const currentUserLogs = userLogs.slice(indexOfFirstData, indexOfLastData);
+    const currentEncashLogs = encashLogs.slice(indexOfFirstData, indexOfLastData);
     // console.log(currentData);
 
 // Change Page
@@ -52,14 +68,14 @@ return (
                         <li className="nav-item">
                             <button type="button" className="nav-link active" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#startup" aria-controls="navs-top-home" aria-selected="true">
-                                Startup Savings
+                                User Logs
                             </button>
                         </li>
                         <li className="nav-item">
                             <button type="button" className="nav-link" role="tab" data-bs-toggle="tab"
                                 data-bs-target="#great" aria-controls="navs-top-profile"
                                 aria-selected="false">
-                                Great Savings
+                                Encashment Logs
                             </button>
                         </li>
                     </ul>
@@ -69,16 +85,15 @@ return (
                                 <table className="table card-table">
                                     <thead>
                                         <tr>
-                                            <th>New User</th>
-                                            <th>Sponsor</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
                                             <th>Updated Rebates</th>
-                                            <th>Updated Stars</th>
                                             <th>Date/Time</th>
                                         </tr>
                                     </thead>
-                                    <StartupLogData startupLogs={currentData} />
+                                    <GenealogyLogData userLogs={currentUserLogs} />
                                 </table>
-                                <StartupLogPagination rowPerPage={rowPerPage} totalRows={startupLogs.length} paginate={paginate} />
+                                <GenealogyLogPagination rowPerPage={rowPerPage} totalRows={userLogs.length} paginate={paginate} />
                             </div>
                         </div>
                         <div className="tab-pane fade" id="great" role="tabpanel">
@@ -86,31 +101,16 @@ return (
                                 <table className="table card-table">
                                     <thead>
                                         <tr>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Encashed Amount</th>
+                                            <th>Rebate Balance</th>
                                             <th>Date/Time</th>
-                                            <th>Name</th>
-                                            <th>UserID</th>
-                                            <th>Stars Earned</th>
-                                            <th>Rebates Earned</th>
-                                            <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="table-border-bottom-0">
-                                        <tr>
-                                            {/* <td><i className="fab fa-angular fa-lg text-danger me-3"></i>
-                                                <strong>January 1, 2023/2:00PM</strong>
-                                            </td>
-                                            <td>
-                                                <img src={process.env.PUBLIC_URL+ "/assets/img/avatars/1.png"}
-                                                    className="w-px-40 h-auto rounded-circle" alt='' />
-                                                Juan DeLa Cruz
-                                            </td>
-                                            <td>123456789</td>
-                                            <td>0</td>
-                                            <td>Php 50</td>
-                                            <td><span className="badge bg-label-primary me-1">Active</span></td> */}
-                                        </tr>
-                                    </tbody>
+                                    <EncashLogData encashlogs={currentEncashLogs} />
                                 </table>
+                                <EncashLogPagination rowPerPage={rowPerPage} totalRows={encashLogs.length} paginate={paginate} />
                             </div>
                         </div>
                     </div>

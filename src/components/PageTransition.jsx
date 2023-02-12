@@ -10,7 +10,7 @@ import GenStartup from '../pages/genealogy/StartupSavings';
 import GenGreat from '../pages/genealogy/GreatSavings';
 import CheckRewards from '../pages/rewards/CheckRewards';
 import Logs from '../pages/Logs';
-import DirectReferral from '../pages/DirectReferrals';
+import StartupDirectReferral from '../pages/StartupDirectReferral';
 import { AnimatePresence } from 'framer-motion';
 import { AuthProvider } from '../contexts/Auth';
 
@@ -34,7 +34,7 @@ return (
           <Route path='/genealogy/GreatSavings' element={<GenGreat />}></Route>
           <Route path='/StarRewards' element={<CheckRewards />}></Route>
           <Route path='/Logs' element={<Logs />}></Route>
-          <Route path='/DirectReferrals/:id/view' element={<DirectReferral />}></Route>
+          <Route path='/StartupDirectReferrals/:id/view' element={<StartupDirectReferral />}></Route>
           </Route>
         </Routes>
       </AuthProvider>

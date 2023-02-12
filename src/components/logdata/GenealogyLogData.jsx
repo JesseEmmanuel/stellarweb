@@ -1,17 +1,16 @@
 import React from 'react'
 
-const StartupLogData = ({ startupLogs }) => {
+const GenealogyLogData = ({ userLogs }) => {
   return (
     <tbody className="table-border-bottom-0">
-    {startupLogs.map((log) => {
+    {userLogs.map((log) => {
         return (
             <tr key={log.id}>
                 <td>
-                    {log.addedUser}
+                    {log.title}
                 </td>
-                <td>{log.addedBy}</td>
+                <td>{log.description}</td>
                 <td>₱ {log.totalRebate}.00</td>
-                <td>({log.totalStars}) ⭐</td>
                 <td><span className="badge bg-label-primary me-1">{log.created_at}</span></td>
              </tr>
         )
@@ -20,4 +19,4 @@ const StartupLogData = ({ startupLogs }) => {
   )
 }
 
-export default StartupLogData
+export default GenealogyLogData

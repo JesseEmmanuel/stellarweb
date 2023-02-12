@@ -12,6 +12,7 @@ const Header = () => {
         
         await signOut()
         redirect('/')
+        window.location.reload()
     }
 
     return (

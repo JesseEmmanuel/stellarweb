@@ -1,16 +1,31 @@
 import { useAuth } from '../contexts/Auth'
 import { useState, useEffect, useRef } from 'react'
+import { Modal, Button, Form } from 'react-bootstrap'
 import axios from 'axios'
 import React from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DashboardUI = () => {
     const { token, user } = useAuth();
+    const [greatsaveRebate, setGreatSaveRebate] = useState([]);
+    const [greatsaveStars, setGreatSaveStars] = useState([]);
     const [startupRebate, setStartupRebate] = useState([]);
     const [startupStars, setStartupStars] = useState([]);
     const dataFetchedRef = useRef(false);
+    const [showStartup, setShowStartup] = useState(false)
+    const handleCloseStartup = () => setShowStartup(false)
+    const handleShowStartup = () => setShowStartup(true)
+    const [showGreatSave, setShowGreatSave] = useState(false)
+    const handleCloseGreatSave = () => setShowGreatSave(false)
+    const handleShowGreatSave = () => setShowGreatSave(true)
 
-    const getReports = async () => {
-        const apiReports = await axios.get(`${process.env.REACT_APP_API_URL}/summaryReports`, {
+    const [formValues, setFormValues] = useState({
+        encash:"",
+    })
+
+    const getStartupReports = async () => {
+        const apiReports = await axios.get(`${process.env.REACT_APP_API_URL}/startupSummary`, {
             headers:{
                'Authorization':`Bearer ${token}`,
             }
@@ -19,13 +34,71 @@ const DashboardUI = () => {
         setStartupStars(apiReports.data.StartupStars);
     }
 
+    const getGreatSaveReports = async () => {
+        const apiReports = await axios.get(`${process.env.REACT_APP_API_URL}/greatsaveSummary`, {
+            headers:{
+               'Authorization':`Bearer ${token}`,
+            }
+        })
+        setGreatSaveRebate(apiReports.data.GreatSavingsRebate);
+        setGreatSaveStars(apiReports.data.GreatSavingsStars);
+    }
+
+    const startupEncashment = async (e) => {
+        e.preventDefault();
+        try{
+            await axios.post(`${process.env.REACT_APP_API_URL}/startupEncashment`, formValues, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            getStartupReports();
+            toast.success("Start-up Encashment Success");
+            handleCloseStartup();
+            // setErrors([]);
+        }
+        catch(e) {
+            if(e.response.status === 401){
+                toast.error(e.response.data.message);
+                handleCloseStartup();
+            }
+        }
+    }
+
+    const greatsaveEncashment = async (e) => {
+        e.preventDefault();
+        try{
+            await axios.post(`${process.env.REACT_APP_API_URL}/greatsaveEncashment`, formValues, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            getStartupReports();
+            toast.success("Great Savings Encashment Success");
+            handleCloseGreatSave();
+            // setErrors([]);
+        }
+        catch(e) {
+            if(e.response.status === 401){
+                toast.error(e.response.data.message);
+                handleCloseGreatSave();
+            }
+        }
+    }
+
+    const onChange = async (e) => {
+            const { name, value } = e.target;
+            setFormValues({...formValues, [name]: value });
+        }
+
     useEffect(() => {
         if(dataFetchedRef.current) 
         {
             return;
         }
         dataFetchedRef.current = true;
-        getReports()
+        getStartupReports()
+        getGreatSaveReports()
     })
 return (
     <div className="content-wrapper">
@@ -55,6 +128,63 @@ return (
                         </div>
                     </div>
                 </div>
+                <ToastContainer position='top-center' hideProgressBar='true' />
+                <Modal show={showStartup} onHide={handleCloseStartup}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Start-up Encashment</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form onSubmit={startupEncashment} id='formAuthentication' className='mb-3'>
+                            <div className="mb-3">
+                                <Form.Control 
+                                    name="encash" 
+                                    value={formValues["encash"]}
+                                    onChange={onChange} 
+                                    type='number' id='encash' className='form-control'
+                                    placeholder='0.00'>
+                                </Form.Control>
+                                {/* <span className='text-sm text-danger'>{errors.activationCode}</span> */}
+                            </div>
+                            <Button className='mx-1' variant="secondary" onClick={handleCloseStartup}>
+                                Close
+                            </Button>
+                            <Button className='mx-1' variant="primary" type='submit' style={{backgroundColor:"#FFAB00", borderColor:"#FFAB00"}}>
+                                Submit
+                            </Button>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={showGreatSave} onHide={handleCloseGreatSave}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Great Savings Encashment</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form onSubmit={greatsaveEncashment} id='formAuthentication' className='mb-3'>
+                            <div className="mb-3">
+                                <Form.Control 
+                                    name="encash" 
+                                    value={formValues["encash"]}
+                                    onChange={onChange} 
+                                    type='number' id='encash' className='form-control'
+                                    placeholder='0.00'>
+                                </Form.Control>
+                                {/* <span className='text-sm text-danger'>{errors.activationCode}</span> */}
+                            </div>
+                            <Button className='mx-1' variant="secondary" onClick={handleCloseGreatSave}>
+                                Close
+                            </Button>
+                            <Button className='mx-1' variant="primary" type='submit'>
+                                Submit
+                            </Button>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
+
                 <div className="col-6">
                     <div className="card mb-4"
                         style={{backgroundImage:"linear-gradient(to bottom right, #FFAB00, #FFE368)"}}>
@@ -76,9 +206,12 @@ return (
                                     style={{pointerEvents:"none", borderColor:"white"}}>
                                     <i className='bx bxs-star mb-1 text-white'></i><span className="text-white"> {startupStars} points</span>
                                 </a>
-                                <a className="btn btn-warning" href="/">
+                                <Button onClick={handleShowStartup} style={{backgroundColor:"#FFAB00", borderColor:"#FFAB00"}}>
+                                        <i className='bx bxs-wallet mb-1'></i> Encash
+                                </Button>
+                                {/* <a className="btn btn-warning" href="/">
                                     <i className='bx bxs-wallet mb-1'></i> Encash
-                                </a>
+                                </a> */}
                             </p>
                         </div>
                     </div>
@@ -91,21 +224,21 @@ return (
                             <h6 className="card-text text-white">
                                 Cycle No:1
                             </h6>
-                            <p clas="mb-1"><strong className="text-white">Rebate Balance</strong> 
+                            <p><strong className="text-white">Rebate Balance</strong> 
                             </p>
                             <h2>
                                 <span
-                                    className="badge bg-primary">Working in Progress ...
+                                    className="badge bg-primary">₱ {greatsaveRebate}.00
                                 </span>
                             </h2>
                             <p className="demo-inline-spacing">
                                 <a className="btn btn-outline-primary mx-2" href="/"
                                     style={{pointerEvents: "none", borderColor:"white"}}>
-                                    <i className='bx bxs-star text-white'></i><span className="text-white">Working in Progress ...</span>
+                                    <i className='bx bxs-star mb-1 text-white'></i><span className="text-white">{greatsaveStars} points</span>
                                 </a>
-                                <a className="btn btn-primary" href="/">
-                                    <i className='bx bxs-wallet mb-1'></i> Encash
-                                </a>
+                                <Button onClick={handleShowGreatSave}>
+                                        <i className='bx bxs-wallet mb-1'></i> Encash
+                                </Button>
                             </p>
                         </div>
                     </div>

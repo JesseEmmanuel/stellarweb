@@ -30,7 +30,7 @@ function StartupUI() {
 
     const getUsers = async () => {
         setLoading(true)
-            const apiUsers = await axios.get(`${process.env.REACT_APP_API_URL}/view`, {
+            const apiUsers = await axios.get(`${process.env.REACT_APP_API_URL}/viewStartup`, {
                 headers: {
                     'Authorization' : `Bearer ${token}`,
                 }
@@ -93,25 +93,26 @@ return (
             </div>
             <div className="row mb-0 d-flex justify-content-center">
                 <div className="col-md-6">
-                    <div className="card mb-3">
+                    <div className="card mb-3" style={{backgroundImage:"linear-gradient(to left, #FFAB00, #FFE368)"}}>
                         <div className="row">
                             <div className="col-md-4">
                                 <img className="card-img card-img-left rounded-circle my-2 mx-2"
-                                    src={process.env.PUBLIC_URL+ "/assets/img/profile.png" } alt="" />
+                                    src={process.env.PUBLIC_URL+ "/assets/img/avatar.jpg" } alt="" />
                             </div>
                             <div className="col-md-6">
                                 <div className="card-body">
-                                    <p className="card-title">Name: <strong>
+                                    <span className="card-title text-white my-1 badge bg-warning">Name: <strong>
                                             {user.firstName} {user.middleName} {user.lastName}
                                         </strong>
-                                    </p>
-                                    <p className="card-title">Activation Code: <strong>
+                                    </span>
+                                    <span className="card-title text-white my-1 badge bg-warning">Activation Code: <strong>
                                             {user.activationCode}
-                                        </strong></p>
-                                    <p className="card-title">Email: <strong>
+                                        </strong>
+                                    </span>
+                                    <span className="card-title text-white my-1 badge bg-warning">Email: <strong>
                                             {user.email}
                                         </strong>
-                                    </p>
+                                    </span>
                                     <div className="p-2 bd-highlight">
                                         <Button className='btn btn-secondary' onClick={handleShow} style={{backgroundColor:"#FFF2D6", border:"#FFAB00"}}>
                                         <strong style={{color:"#FFAB00"}}> <i className='bx bxs-plus-circle'></i> Add User</strong> 

@@ -45,6 +45,10 @@ export const AuthProvider = ({ children }) => {
             const read = await axios.post(`${process.env.REACT_APP_API_URL}/authenticate`, formData);
             setToken(read.data.token)
             setUser(read.data.user)
+            setFormData({
+                email: '',
+                password: ''
+            })
             navigate('/Dashboard')
         }
         catch(e) {
