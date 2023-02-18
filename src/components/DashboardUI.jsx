@@ -197,7 +197,7 @@ return (
                             </p>
                             <h2>
                             <span
-                                className="badge bg-warning">₱ {startupRebate}.00
+                                className="badge bg-warning">{startupRebate}
                                 </span>
                             </h2>
 
@@ -228,7 +228,7 @@ return (
                             </p>
                             <h2>
                                 <span
-                                    className="badge bg-primary">₱ {greatsaveRebate}.00
+                                    className="badge bg-primary">{greatsaveRebate}
                                 </span>
                             </h2>
                             <p className="demo-inline-spacing">

@@ -47,7 +47,7 @@ function StartupUI() {
     const addUser = async (e) => {
         e.preventDefault();
         try{
-            await axios.post(`${process.env.REACT_APP_API_URL}/addUser`, formValues, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/addStartupAccount`, formValues, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
