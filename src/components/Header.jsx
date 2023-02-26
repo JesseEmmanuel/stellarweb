@@ -53,7 +53,7 @@ const Header = () => {
                                                     </div>
                                                     <div className="flex-grow-1">
                                                         <span className="fw-semibold d-block">{user.lastName + `, ` + user.firstName}</span>
-                                                        <small className="text-muted">Admin</small>
+                                                        <small className="text-muted">User</small>
                                                     </div>
                                                 </div>
                                             </a>

@@ -11,14 +11,15 @@ import GenGreat from '../pages/genealogy/GreatSavings';
 import CheckRewards from '../pages/rewards/CheckRewards';
 import Logs from '../pages/Logs';
 import StartupDirectReferral from '../pages/StartupDirectReferral';
+import GreatSaveDirectReferral from '../pages/GreatSaveDirectReferral';
 import { AnimatePresence } from 'framer-motion';
 import { AuthProvider } from '../contexts/Auth';
 
 
 
 function PageTransition() {
-const location = useLocation();
 
+const location = useLocation();
 return (
 <div className="layout-wrapper layout-content-navbar">
   <AnimatePresence>
@@ -35,6 +36,7 @@ return (
           <Route path='/StarRewards' element={<CheckRewards />}></Route>
           <Route path='/Logs' element={<Logs />}></Route>
           <Route path='/StartupDirectReferrals/:id/view' element={<StartupDirectReferral />}></Route>
+          <Route path='/GreatSaveDirectReferrals/:id/view' element={<GreatSaveDirectReferral />}></Route>
           </Route>
         </Routes>
       </AuthProvider>

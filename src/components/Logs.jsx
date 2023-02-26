@@ -105,6 +105,7 @@ return (
                                             <th>Description</th>
                                             <th>Encashed Amount</th>
                                             <th>Rebate Balance</th>
+                                            <th>Claim</th>
                                             <th>Date/Time</th>
                                         </tr>
                                     </thead>

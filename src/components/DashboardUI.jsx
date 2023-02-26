@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/Auth'
 import { useState, useEffect, useRef } from 'react'
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button, Form, Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
@@ -19,12 +19,15 @@ const DashboardUI = () => {
     const [showGreatSave, setShowGreatSave] = useState(false)
     const handleCloseGreatSave = () => setShowGreatSave(false)
     const handleShowGreatSave = () => setShowGreatSave(true)
+    const [loadingStartUp, setLoadingStartup] = useState(false)
+    const [loadingGreatSave, setLoadingGreatSave] = useState(false)
 
     const [formValues, setFormValues] = useState({
         encash:"",
     })
 
     const getStartupReports = async () => {
+        setLoadingStartup(true)
         const apiReports = await axios.get(`${process.env.REACT_APP_API_URL}/startupSummary`, {
             headers:{
                'Authorization':`Bearer ${token}`,
@@ -32,9 +35,11 @@ const DashboardUI = () => {
         })
         setStartupRebate(apiReports.data.StartupRebate);
         setStartupStars(apiReports.data.StartupStars);
+        setLoadingStartup(false)
     }
 
     const getGreatSaveReports = async () => {
+        setLoadingGreatSave(true)
         const apiReports = await axios.get(`${process.env.REACT_APP_API_URL}/greatsaveSummary`, {
             headers:{
                'Authorization':`Bearer ${token}`,
@@ -42,6 +47,7 @@ const DashboardUI = () => {
         })
         setGreatSaveRebate(apiReports.data.GreatSavingsRebate);
         setGreatSaveStars(apiReports.data.GreatSavingsStars);
+        setLoadingGreatSave(false)
     }
 
     const startupEncashment = async (e) => {
@@ -62,6 +68,10 @@ const DashboardUI = () => {
                 toast.error(e.response.data.message);
                 handleCloseStartup();
             }
+            if(e.response.status === 402){
+                toast.error(e.response.data.message);
+                handleCloseStartup();
+            }
         }
     }
 
@@ -73,13 +83,17 @@ const DashboardUI = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            getStartupReports();
+            getGreatSaveReports();
             toast.success("Great Savings Encashment Success");
             handleCloseGreatSave();
             // setErrors([]);
         }
         catch(e) {
             if(e.response.status === 401){
+                toast.error(e.response.data.message);
+                handleCloseGreatSave();
+            }
+            if(e.response.status === 402){
                 toast.error(e.response.data.message);
                 handleCloseGreatSave();
             }
@@ -100,12 +114,13 @@ const DashboardUI = () => {
         getStartupReports()
         getGreatSaveReports()
     })
+
 return (
     <div className="content-wrapper">
         <div className="container-xxl flex-grow-1 container-p-y">
             <div className="row">
                 <div className="col-lg-12 mb-4 order-0">
-                    <div className="card">
+                    <div className="card" id='summary'>
                         <div className="d-flex align-items-end row">
                             <div className="col-sm-7">
                                 <div className="card-body">
@@ -185,30 +200,41 @@ return (
                     </Modal.Footer>
                 </Modal>
 
-                <div className="col-6">
+                <div className="col-6" id='sa-db'>
                     <div className="card mb-4"
                         style={{backgroundImage:"linear-gradient(to bottom right, #FFAB00, #FFE368)"}}>
                         <h5 className="card-header text-white"><i className='bx bx-line-chart'></i> Start-Up Savings</h5>
                         <div className="card-body">
-                            <h6 className="card-text text-white">
-                                Cycle No:1
-                            </h6>
                             <p clas="mb-4"><strong className="text-white">Rebate Balance</strong> 
                             </p>
                             <h2>
-                            <span
-                                className="badge bg-warning">{startupRebate}
-                                </span>
+                            {loadingStartUp === true ? <Button variant="warning" disabled>
+                                <Spinner
+                                  as="span"
+                                  animation="border"
+                                  size="sm"
+                                  role="status"
+                                  aria-hidden="true"
+                                />
+                                Calculating...
+                              </Button> : <span className="badge bg-warning">{startupRebate}</span> }
                             </h2>
 
                             <p className="demo-inline-spacing">
                                 <a className="btn btn-outline-dark mx-2" href="/"
                                     style={{pointerEvents:"none", borderColor:"white"}}>
-                                    <i className='bx bxs-star mb-1 text-white'></i><span className="text-white"> {startupStars} points</span>
+                                        {loadingStartUp === true ? <span className="text-white">Loading ...</span> : <span className="text-white"> 
+                                        <i className='bx bxs-star mb-1 text-white'></i> {startupStars} points</span>}
+                                    {/* <i className='bx bxs-star mb-1 text-white'></i><span className="text-white"> {startupStars} points</span> */}
                                 </a>
+                                {loadingStartUp === true ? 
+                                <Button disabled style={{backgroundColor:"#FFAB00", borderColor:"#FFAB00"}}>
+                                        <i className='bx bxs-wallet mb-1'></i> Loading ...
+                                </Button> : 
                                 <Button onClick={handleShowStartup} style={{backgroundColor:"#FFAB00", borderColor:"#FFAB00"}}>
                                         <i className='bx bxs-wallet mb-1'></i> Encash
-                                </Button>
+                                </Button> 
+                                }
                                 {/* <a className="btn btn-warning" href="/">
                                     <i className='bx bxs-wallet mb-1'></i> Encash
                                 </a> */}
@@ -216,29 +242,41 @@ return (
                         </div>
                     </div>
                 </div>
-                <div className="col-6">
+                <div className="col-6" id='gs-db'>
                     <div className="card mb-4"
                         style={{backgroundImage:"linear-gradient(to bottom right, #696CFF, #B6B7FF)"}}>
                         <h5 className="card-header text-white"><i className='bx bxs-chevrons-up'></i> Great Savings</h5>
                         <div className="card-body">
-                            <h6 className="card-text text-white">
-                                Cycle No:1
-                            </h6>
                             <p><strong className="text-white">Rebate Balance</strong> 
                             </p>
                             <h2>
-                                <span
-                                    className="badge bg-primary">{greatsaveRebate}
-                                </span>
+                            {loadingGreatSave === true ? <Button variant="primary" disabled>
+                                <Spinner
+                                  as="span"
+                                  animation="border"
+                                  size="sm"
+                                  role="status"
+                                  aria-hidden="true"
+                                />
+                                Calculating...
+                              </Button> : <span className="badge bg-primary">{greatsaveRebate}</span> 
+                            }
                             </h2>
                             <p className="demo-inline-spacing">
                                 <a className="btn btn-outline-primary mx-2" href="/"
                                     style={{pointerEvents: "none", borderColor:"white"}}>
-                                    <i className='bx bxs-star mb-1 text-white'></i><span className="text-white">{greatsaveStars} points</span>
+                                        {loadingGreatSave === true ? <span className="text-white">Loading ...</span> : <span className="text-white"> 
+                                        <i className='bx bxs-star mb-1 text-white'></i> {greatsaveStars} points</span>}
+                                    {/* <i className='bx bxs-star mb-1 text-white'></i><span className="text-white">{greatsaveStars} points</span> */}
                                 </a>
+                                {loadingGreatSave === true ? 
+                                <Button disabled>
+                                        <i className='bx bxs-wallet mb-1'></i> Loading ...
+                                </Button> : 
                                 <Button onClick={handleShowGreatSave}>
                                         <i className='bx bxs-wallet mb-1'></i> Encash
-                                </Button>
+                                </Button> 
+                                }
                             </p>
                         </div>
                     </div>

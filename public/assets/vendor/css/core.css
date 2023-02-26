@@ -8483,6 +8483,12 @@ button.list-group-item-gray.active {
   }
 }
 
+/* @media all and (max-width: 380px) {
+  .col-md-6 {
+    width: 50% !important;
+  }
+} */
+
 .card-img-right {
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;

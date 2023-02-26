@@ -26,13 +26,16 @@ export const AuthProvider = ({ children }) => {
         setFormData({...formData, [name]: value });
     }
 
-    useEffect(() => {
-        localStorage.setItem('token', token)
-    }, [token])
+    // useEffect(() => {
+    //     // localStorage.setItem('token', JSON.stringify(token))
+    //     localStorage.setItem('token', token)
+    // }, [token])
 
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(user))
-    }, [user])
+        // localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('token', token)
+        localStorage.setItem('user', user)
+    }, [token,user])
 
     const signUp = (data) => {
         console.log(data)

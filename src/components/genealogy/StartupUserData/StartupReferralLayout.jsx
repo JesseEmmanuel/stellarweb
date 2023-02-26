@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from "axios";
-import { useParams } from 'react-router';
+import { useParams} from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import "../../../App.css"
 import { motion } from "framer-motion"
 import StartupReferralData from './StartupReferralData';
@@ -20,6 +22,12 @@ function StartupReferralLayout() {
         setLoading(false)
     }
 
+    const navigate = useNavigate();
+
+    const goBack = () => {
+        navigate(-1);
+      };
+
     useEffect(() => {
         if(dataFetchedRef.current) 
         {
@@ -33,31 +41,38 @@ function StartupReferralLayout() {
     <motion.div className="content-wrapper" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
     <div className="container-xxl flex-grow-1 container-p-y">
         <div className="row">
-            <div className="d-flex justify-content-center">
-            <h3 className="pb-1 mb-4">Startup Savings</h3>
+            <div className="d-flex justify-content-between">
+                <Button onClick={goBack} style={{backgroundColor:"#FFAB00", borderColor:"#FFAB00"}}>
+                    &larr; Go Back
+                </Button>
             </div>
             <div className="row mb-0 d-flex justify-content-center">
                 <div className="col-md-6">
-                    <div className="card mb-3" style={{backgroundImage:"linear-gradient(to left, #FFAB00, #FFE368)"}}>
+                    <div className="card mb-3" id='sa-upline-profile'>
                         <div className="row">
-                            <div className="col-md-4">
-                                <img className="card-img card-img-left rounded-circle my-2 mx-2"
-                                    src={process.env.PUBLIC_URL+ "/assets/img/avatar.jpg" } alt="" />
+                            <div className="col-md-4" id='sa-upline-avatar-container'>
+                                <img className="card-img card-img-left my-2 mx-2" id='sa-upline-avatar'
+                                    src={process.env.PUBLIC_URL+ "/assets/img/sa_profile.png" } alt="" />
                             </div>
-                            <div className="col-md-6">
-                                <div className="card-body">
-                                <p className="card-title text-white">Name: <strong>
+                            <div className="col-md-8">
+                                <div className="card-body" id='sa-upline-card'>
+                                    <p className="card-title">Name: <strong>
                                             {user.firstName} {user.middleName} {user.lastName}
                                         </strong>
                                     </p>
-                                    <p className="card-title text-white">Activation Code: <strong>
+                                    <p className="card-title">Activation Code: <strong>
                                             {user.activationCode}
                                         </strong>
                                     </p>
-                                    <p className="card-title text-white">Email: <strong>
+                                    <p className="card-title">Email: <strong>
                                             {user.email}
                                         </strong>
                                     </p>
+                                    {/* <h6 className="card-title mb-0"> <small>Note:</small></h6>
+                                    <p className="card-text"> <small> -Startup up to 4rth level <br />-Great Savings up
+                                            to 5th level</small>
+
+                                    </p> */}
                                 </div>
                             </div>
                         </div>

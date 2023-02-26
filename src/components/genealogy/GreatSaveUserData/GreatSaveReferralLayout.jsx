@@ -1,53 +1,32 @@
-import { useState, useEffect, useRef } from 'react'
-import { useAuth } from '../../contexts/Auth';
+import { useState, useEffect, useRef } from 'react';
 import axios from "axios";
-import 'react-toastify/dist/ReactToastify.css';
-import GreatSaveUserGrid from './GreatSaveUserData/GreatSaveUserGrid';
-import "../../App.css"
+import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import "../../../App.css"
+import { motion } from "framer-motion"
+import GreatSaveReferralData from './GreatSaveReferralData';
 
-
-function GreatUI() {
-    const { user, token } = useAuth()
-    const [users, setUsers] = useState([])
+function GreatSaveReferralLayout() {
+    const { id } = useParams();
+    const [user, setUser] = useState([]);
+    const [referrals, setReferrals] = useState([])
     const dataFetchedRef = useRef(false);
     const [loading, setLoading] = useState(false)
-    const [message, setMessage] = useState([])
-    const [valid, setValid] = useState(false)
 
-    const getUsers = async () => {
+    const getReferrals = async () => {
         setLoading(true)
-        const apiUsers = await axios.get(`${process.env.REACT_APP_API_URL}/viewGreatSave` ,{
-            headers: {
-                'Authorization' : `Bearer ${token}`,
-            }
-        })
-        // setUsers(apiUsers.data.referrals)
-        // console.log(apiUsers.data.referrals)
-        // console.log(apiUsers.status)
-        if(apiUsers.status === 200)
-        {
-            if(apiUsers.data.referrals.length === 0)
-            {
-                setMessage('No Data Available')
-                setValid(true)
-                setLoading(false)
-            }
-            else
-            {
-                setMessage('Your Direct Referrals')
-                setUsers(apiUsers.data.referrals)
-                setValid(true)
-                setLoading(false)
-            }
-        }
-        if(apiUsers.status === 201)
-        {
-            setMessage(apiUsers.data.message)
-            setValid(false)
-            setLoading(false)
-        }
+        const referrals = await axios.get(`${process.env.REACT_APP_API_URL}/view-greatsave-referrals/${id}`)
+        setReferrals(referrals.data.referrals)
+        setUser(referrals.data.userInfo)
+        setLoading(false)
     }
 
+    const navigate = useNavigate();
+
+    const goBack = () => {
+        navigate(-1);
+      };
 
     useEffect(() => {
         if(dataFetchedRef.current) 
@@ -55,17 +34,19 @@ function GreatUI() {
             return;
         }
         dataFetchedRef.current = true;
-        getUsers();
+        getReferrals();
     })
 
-return (
-    <div class="content-wrapper">
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="row">
-                <div class="d-flex justify-content-center">
-                    <h3 class="pb-1 mb-4">Great Savings</h3>
-                </div>
-                <div className="row mb-0 d-flex justify-content-center">
+  return (
+    <motion.div className="content-wrapper" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <div className="container-xxl flex-grow-1 container-p-y">
+        <div className="row">
+            <div className="d-flex justify-content-between">
+                <Button onClick={goBack}>
+                    &larr; Go Back
+                </Button>
+            </div>
+            <div className="row mb-0 d-flex justify-content-center">
                 <div className="col-md-6">
                     <div className="card mb-3" id='gs-upline-profile'>
                         <div className="row">
@@ -98,11 +79,11 @@ return (
                     </div>
                 </div>
             </div>
-                <GreatSaveUserGrid users={users} message={message} valid={valid} loading={loading} />
-            </div>
+            <GreatSaveReferralData referrals={referrals} loading={loading} />
         </div>
     </div>
-    )
+</motion.div>
+  )
 }
 
-export default GreatUI
+export default GreatSaveReferralLayout

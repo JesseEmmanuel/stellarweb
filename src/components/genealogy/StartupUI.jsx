@@ -93,29 +93,29 @@ return (
             </div>
             <div className="row mb-0 d-flex justify-content-center">
                 <div className="col-md-6">
-                    <div className="card mb-3" style={{backgroundImage:"linear-gradient(to left, #FFAB00, #FFE368)"}}>
+                    <div className="card mb-3" id='sa-upline-profile'>
                         <div className="row">
-                            <div className="col-md-4">
-                                <img className="card-img card-img-left rounded-circle my-2 mx-2"
-                                    src={process.env.PUBLIC_URL+ "/assets/img/avatar.jpg" } alt="" />
+                            <div className="col-md-4" id='sa-upline-avatar-container'>
+                                <img className="card-img card-img-left my-2 mx-2" id='sa-upline-avatar'
+                                    src={process.env.PUBLIC_URL+ "/assets/img/sa_profile.png" } alt="" />
                             </div>
-                            <div className="col-md-6">
-                                <div className="card-body">
-                                    <span className="card-title text-white my-1 badge bg-warning">Name: <strong>
+                            <div className="col-md-8">
+                                <div className="card-body" id='sa-upline-card'>
+                                    <p className="card-title">Name: <strong>
                                             {user.firstName} {user.middleName} {user.lastName}
                                         </strong>
-                                    </span>
-                                    <span className="card-title text-white my-1 badge bg-warning">Activation Code: <strong>
+                                    </p>
+                                    <p className="card-title">Activation Code: <strong>
                                             {user.activationCode}
                                         </strong>
-                                    </span>
-                                    <span className="card-title text-white my-1 badge bg-warning">Email: <strong>
+                                    </p>
+                                    <p className="card-title">Email: <strong>
                                             {user.email}
                                         </strong>
-                                    </span>
+                                    </p>
                                     <div className="p-2 bd-highlight">
                                         <Button className='btn btn-secondary' onClick={handleShow} style={{backgroundColor:"#FFF2D6", border:"#FFAB00"}}>
-                                        <strong style={{color:"#FFAB00"}}> <i className='bx bxs-plus-circle'></i> Add User</strong> 
+                                            <strong style={{color:"#FFAB00"}}> <i className='bx bxs-plus-circle'></i> Add User</strong> 
                                         </Button>
                                     </div>
                                     {/* <h6 className="card-title mb-0"> <small>Note:</small></h6>
