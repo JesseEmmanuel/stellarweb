@@ -11,8 +11,10 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-    const [ token, setToken ] = useState(localStorage.getItem('token'))
-    const [ user, setUser ] = useState(localStorage.getItem('user'))
+    const [ token, setToken ] = useState(JSON.parse(localStorage.getItem('token')))
+    const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')))
+    // const [ token, setToken ] = useState(localStorage.getItem('token'))
+    // const [ user, setUser ] = useState(localStorage.getItem('user'))
     const navigate = useNavigate()
     const [message, setMessage] = useState([])
     const [error, setError] = useState([])
@@ -33,8 +35,8 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         // localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('token', token)
-        localStorage.setItem('user', user)
+        localStorage.setItem('token', JSON.stringify(token))
+        localStorage.setItem('user', JSON.stringify(user))
     }, [token,user])
 
     const signUp = (data) => {
