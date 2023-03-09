@@ -173,7 +173,7 @@ return (
                                     name="encash" 
                                     value={formValues["encash"]}
                                     onChange={onChange} 
-                                    type='number' id='encash' className='form-control'
+                                    type='number' id='encashment' className='form-control'
                                     placeholder='0.00'>
                                 </Form.Control>
                                 {/* <span className='text-sm text-danger'>{errors.activationCode}</span> */}
@@ -201,7 +201,7 @@ return (
                                     name="encash" 
                                     value={formValues["encash"]}
                                     onChange={onChange} 
-                                    type='number' id='encash' className='form-control'
+                                    type='number' id='encashment' className='form-control'
                                     placeholder='0.00'>
                                 </Form.Control>
                                 {/* <span className='text-sm text-danger'>{errors.activationCode}</span> */}
