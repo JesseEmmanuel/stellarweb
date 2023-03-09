@@ -36,6 +36,21 @@
     height:88vh;
 } */
 
+#genealogy{
+  height: 55vh;
+  overflow-y: auto;
+}
+
+#encash{
+  height: 55vh;
+  overflow-y: auto;
+}
+
+#rewards{
+  height: 55vh;
+  overflow-y: auto;
+}
+
 .sidebarwrap {
     width: 100%;
 }

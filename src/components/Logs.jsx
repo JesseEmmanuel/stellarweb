@@ -3,11 +3,11 @@ import { useState, useEffect, useRef } from "react";
 // import StartupLogPagination from "./logdata/GenealogyLogPagination";
 // import StartupLogData from "./logdata/GenealogyLogData";
 import EncashLogData from "./logdata/EncashLogData";
-import EncashLogPagination from "./logdata/EncashLogPagination";
+// import EncashLogPagination from "./logdata/EncashLogPagination";
 import GenealogyLogData from "./logdata/GenealogyLogData";
-import GenealogyLogPagination from "./logdata/GenealogyLogPagination";
+// import GenealogyLogPagination from "./logdata/GenealogyLogPagination";
 import RewardsLogData from "./logdata/RewardsLogData";
-import RewardsLogPagination from "./logdata/RewardsLogPagination";
+// import RewardsLogPagination from "./logdata/RewardsLogPagination";
 import axios from "axios";
 
 function Logs() {
@@ -17,8 +17,8 @@ function Logs() {
     const [encashLogs, setEncashLogs] = useState([])
     const [rewardsLogs, setRewardsLogs] = useState([])
     const dataFetchedRef = useRef(false)
-    const [currentPage, setCurrentPage] = useState(1);
-    const [rowPerPage] = useState(10);
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [rowPerPage] = useState(10);
 
     const getUserLogs = async () => {
         const apiStartupLogs = await axios.get(`${process.env.REACT_APP_API_URL}/userLogs`, {
@@ -59,15 +59,15 @@ function Logs() {
     });
 
 // Get current Data
-    const indexOfLastData = currentPage * rowPerPage;
-    const indexOfFirstData = indexOfLastData - rowPerPage;
-    const currentUserLogs = userLogs.slice(indexOfFirstData, indexOfLastData);
-    const currentEncashLogs = encashLogs.slice(indexOfFirstData, indexOfLastData);
-    const currentRewardsLogs = rewardsLogs.slice(indexOfFirstData, indexOfLastData);
+    // const indexOfLastData = currentPage * rowPerPage;
+    // const indexOfFirstData = indexOfLastData - rowPerPage;
+    // const currentUserLogs = userLogs.slice(indexOfFirstData, indexOfLastData);
+    // const currentEncashLogs = encashLogs.slice(indexOfFirstData, indexOfLastData);
+    // const currentRewardsLogs = rewardsLogs.slice(indexOfFirstData, indexOfLastData);
     // console.log(currentData);
 
 // Change Page
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    // const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 
 return (
@@ -81,13 +81,13 @@ return (
                     <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item">
                             <button type="button" className="nav-link active" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#startup" aria-controls="navs-top-home" aria-selected="true">
+                                data-bs-target="#genealogy" aria-controls="navs-top-home" aria-selected="true">
                                 User Logs
                             </button>
                         </li>
                         <li className="nav-item">
                             <button type="button" className="nav-link" role="tab" data-bs-toggle="tab"
-                                data-bs-target="#great" aria-controls="navs-top-profile"
+                                data-bs-target="#encash" aria-controls="navs-top-profile"
                                 aria-selected="false">
                                 Encashment Logs
                             </button>
@@ -101,7 +101,7 @@ return (
                         </li>
                     </ul>
                     <div className="tab-content">
-                        <div className="tab-pane fade show active" id="startup" role="tabpanel">
+                        <div className="tab-pane fade show active" id="genealogy" role="tabpanel">
                             <div className="table-responsive text-nowrap">
                                 <table className="table card-table">
                                     <thead>
@@ -112,12 +112,12 @@ return (
                                             <th>Date/Time</th>
                                         </tr>
                                     </thead>
-                                    <GenealogyLogData userLogs={currentUserLogs} />
+                                    <GenealogyLogData userLogs={userLogs} />
                                 </table>
-                                <GenealogyLogPagination rowPerPage={rowPerPage} totalRows={userLogs.length} paginate={paginate} />
+                                {/* <GenealogyLogPagination rowPerPage={rowPerPage} totalRows={userLogs.length} paginate={paginate} /> */}
                             </div>
                         </div>
-                        <div className="tab-pane fade" id="great" role="tabpanel">
+                        <div className="tab-pane fade" id="encash" role="tabpanel">
                             <div className="table-responsive text-nowrap">
                                 <table className="table card-table">
                                     <thead>
@@ -130,9 +130,9 @@ return (
                                             <th>Date/Time</th>
                                         </tr>
                                     </thead>
-                                    <EncashLogData encashlogs={currentEncashLogs} />
+                                    <EncashLogData encashlogs={encashLogs} />
                                 </table>
-                                <EncashLogPagination rowPerPage={rowPerPage} totalRows={encashLogs.length} paginate={paginate} />
+                                {/* <EncashLogPagination rowPerPage={rowPerPage} totalRows={encashLogs.length} paginate={paginate} /> */}
                             </div>
                         </div>
                         <div className="tab-pane fade" id="rewards" role="tabpanel">
@@ -145,9 +145,9 @@ return (
                                             <th>Date/Time</th>
                                         </tr>
                                     </thead>
-                                    <RewardsLogData rewardslogs={currentRewardsLogs} />
+                                    <RewardsLogData rewardslogs={rewardsLogs} />
                                 </table>
-                                <RewardsLogPagination rowPerPage={rowPerPage} totalRows={rewardsLogs.length} paginate={paginate} />
+                                {/* <RewardsLogPagination rowPerPage={rowPerPage} totalRows={rewardsLogs.length} paginate={paginate} /> */}
                             </div>
                         </div>
                     </div>
