@@ -1,12 +1,17 @@
 import React from 'react'
 import {  useNavigate } from 'react-router-dom'
-import { Nav } from 'react-bootstrap'
+import { NavLink, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import { useAuth } from '../contexts/Auth'
+import * as ImIcons from 'react-icons/im'
 
 const Header = () => {
     const redirect = useNavigate()
-    const { signOut, user } = useAuth()
-
+    const { signOut } = useAuth()
+    const tooltip = (
+        <Tooltip>
+            Log Out
+        </Tooltip>
+    )
     const handleSignout = async (e) => {
         e.preventDefault() 
         
@@ -18,12 +23,11 @@ const Header = () => {
     return (
         <nav className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
                         id="layout-navbar">
-                        <div className="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-                            <a className="nav-item nav-link px-0 me-xl-4" href="/Dashboard">
+                        {/* <div className="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                            <a className="nav-item nav-link px-0 me-xl-4" href="!#">
                                 <i className="bx bx-menu bx-sm"></i>
                             </a>
-                        </div>
-
+                        </div> */}
                         <div className="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                             <div className="navbar-nav align-items-center">
                                 <div className="nav-item d-flex align-items-center">
@@ -34,46 +38,11 @@ const Header = () => {
                             </div>
                             <ul className="navbar-nav flex-row align-items-center ms-auto">
                                 <li className="nav-item navbar-dropdown dropdown-user dropdown">
-                                    <a className="nav-link dropdown-toggle hide-arrow" href="/Dashboard"
-                                        data-bs-toggle="dropdown">
-                                        <div className="avatar avatar-online">
-                                            <img src={process.env.PUBLIC_URL + "/assets/img/profile.png"}
-                                                alt="" className="w-px-40 h-auto rounded-circle" />
-                                        </div>
-                                    </a>
-                                    <ul className="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a className="dropdown-item" href='/Dashbaord'>
-                                                <div className="d-flex">
-                                                    <div className="flex-shrink-0 me-3">
-                                                        <div className="avatar avatar-online">
-                                                            <img src={process.env.PUBLIC_URL + "/assets/img/profile.png"}
-                                                                alt="" className="w-px-40 h-auto rounded-circle" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex-grow-1">
-                                                        <span className="fw-semibold d-block">{user.lastName + `, ` + user.firstName}</span>
-                                                        <small className="text-muted">User</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <div className="dropdown-divider"></div>
-                                        </li>
-                                        <li>
-                                            <a className="dropdown-item" href="/Dashboard">
-                                                <i className="bx bx-user me-2"></i>
-                                                <span className="align-middle">My Profile</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <Nav.Link onClick={handleSignout} className="dropdown-item">
-                                                <i className="bx bx-power-off me-2"></i>
-                                                <span className="align-middle">Log Out</span>
-                                            </Nav.Link>
-                                        </li>
-                                    </ul>
+                                    <OverlayTrigger placement="bottom" overlay={tooltip}>
+                                        <NavLink className="link" onClick={handleSignout}>
+                                            <div className='icon'><ImIcons.ImExit color='#0F1D41' size={28} /></div>
+                                        </NavLink>
+                                    </OverlayTrigger>
                                 </li>
                             </ul>
                         </div>

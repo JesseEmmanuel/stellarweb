@@ -6,6 +6,8 @@ import EncashLogData from "./logdata/EncashLogData";
 import EncashLogPagination from "./logdata/EncashLogPagination";
 import GenealogyLogData from "./logdata/GenealogyLogData";
 import GenealogyLogPagination from "./logdata/GenealogyLogPagination";
+import RewardsLogData from "./logdata/RewardsLogData";
+import RewardsLogPagination from "./logdata/RewardsLogPagination";
 import axios from "axios";
 
 function Logs() {
@@ -13,6 +15,7 @@ function Logs() {
     const { token } = useAuth()
     const [userLogs, setUserLogs] = useState([])
     const [encashLogs, setEncashLogs] = useState([])
+    const [rewardsLogs, setRewardsLogs] = useState([])
     const dataFetchedRef = useRef(false)
     const [currentPage, setCurrentPage] = useState(1);
     const [rowPerPage] = useState(10);
@@ -35,6 +38,15 @@ function Logs() {
         setEncashLogs(apiEncashLogs.data.encashmentLogs)
     }
 
+    const getRewardsLogs = async() => {
+        const apiRewards = await axios.get(`${process.env.REACT_APP_API_URL}/getRewards`, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        setRewardsLogs(apiRewards.data.rewards)
+    }
+
     useEffect(() => {
         if(dataFetchedRef.current) 
         {
@@ -43,6 +55,7 @@ function Logs() {
         dataFetchedRef.current = true;
         getUserLogs();
         getEncashLogs();
+        getRewardsLogs();
     });
 
 // Get current Data
@@ -50,6 +63,7 @@ function Logs() {
     const indexOfFirstData = indexOfLastData - rowPerPage;
     const currentUserLogs = userLogs.slice(indexOfFirstData, indexOfLastData);
     const currentEncashLogs = encashLogs.slice(indexOfFirstData, indexOfLastData);
+    const currentRewardsLogs = rewardsLogs.slice(indexOfFirstData, indexOfLastData);
     // console.log(currentData);
 
 // Change Page
@@ -76,6 +90,13 @@ return (
                                 data-bs-target="#great" aria-controls="navs-top-profile"
                                 aria-selected="false">
                                 Encashment Logs
+                            </button>
+                        </li>
+                        <li className="nav-item">
+                            <button type="button" className="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#rewards" aria-controls="navs-top-profile"
+                                aria-selected="false">
+                                Rewards Logs
                             </button>
                         </li>
                     </ul>
@@ -112,6 +133,21 @@ return (
                                     <EncashLogData encashlogs={currentEncashLogs} />
                                 </table>
                                 <EncashLogPagination rowPerPage={rowPerPage} totalRows={encashLogs.length} paginate={paginate} />
+                            </div>
+                        </div>
+                        <div className="tab-pane fade" id="rewards" role="tabpanel">
+                            <div className="table-responsive text-nowrap">
+                                <table className="table card-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Redeem Status</th>
+                                            <th>Date/Time</th>
+                                        </tr>
+                                    </thead>
+                                    <RewardsLogData rewardslogs={currentRewardsLogs} />
+                                </table>
+                                <RewardsLogPagination rowPerPage={rowPerPage} totalRows={rewardsLogs.length} paginate={paginate} />
                             </div>
                         </div>
                     </div>

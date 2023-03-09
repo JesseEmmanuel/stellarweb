@@ -9,7 +9,7 @@ const LoginForm = () => {
     const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
-        email: '',
+        userName: '',
         password: ''
     })
 
@@ -46,8 +46,8 @@ return (
             </div>
             <Form id='formAuthentication' className='mb-3' onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <Form.Control type='email' id='email' className='form-control' placeholder='Username' 
-                    onChange={(e) => setFormData({...formData, email:e.target.value})}>
+                    <Form.Control type='text' id='userName' className='form-control' placeholder='Username' 
+                    onChange={(e) => setFormData({...formData, userName:e.target.value})}>
                     </Form.Control>
                 </div>
                 <div className="mb-3 form-password-toggle">

@@ -10,6 +10,7 @@ import GenStartup from '../pages/genealogy/StartupSavings';
 import GenGreat from '../pages/genealogy/GreatSavings';
 import CheckRewards from '../pages/rewards/CheckRewards';
 import Logs from '../pages/Logs';
+import RequestPasswordForm from '../pages/ForgotPassword/RequestPasswordForm';
 import StartupDirectReferral from '../pages/StartupDirectReferral';
 import GreatSaveDirectReferral from '../pages/GreatSaveDirectReferral';
 import { AnimatePresence } from 'framer-motion';
@@ -28,6 +29,7 @@ return (
         <Routes location={location} key={location.pathname}>
           <Route path='/' element={<Login />}></Route>
           <Route path='/Register' element={<Register />}></Route>
+          <Route path='/ForgotPassword' element={<RequestPasswordForm />}></Route>
           <Route element={<SidebarLayout />}>
           <Route path='/Dashboard' element={<Dashboard />}></Route>
           <Route path='/Profile' element={<Profile />}></Route>

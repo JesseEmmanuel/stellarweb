@@ -13,13 +13,15 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [ token, setToken ] = useState(JSON.parse(localStorage.getItem('token')))
     const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')))
+
+
     // const [ token, setToken ] = useState(localStorage.getItem('token'))
     // const [ user, setUser ] = useState(localStorage.getItem('user'))
     const navigate = useNavigate()
     const [message, setMessage] = useState([])
     const [error, setError] = useState([])
     const [formData, setFormData] = useState({
-        email: '',
+        userName: '',
         password: ''
     })
 
@@ -38,6 +40,10 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', JSON.stringify(token))
         localStorage.setItem('user', JSON.stringify(user))
     }, [token,user])
+
+    const updateUser = (data) => {
+        setUser(data)
+    }
 
     const signUp = (data) => {
         console.log(data)
@@ -84,6 +90,7 @@ export const AuthProvider = ({ children }) => {
         formData,
         error,
         message,
+        updateUser
     }
     return <AuthContext.Provider value={value}>{ children }</AuthContext.Provider> 
 }

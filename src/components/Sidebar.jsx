@@ -3,6 +3,7 @@ import * as RiIcons from 'react-icons/ri'
 import * as TbIcons from 'react-icons/tb'
 import * as BiIcons from 'react-icons/bi'
 import * as IoIcons from 'react-icons/io'
+import * as MdIcons from 'react-icons/md'
 import { useState, useEffect } from 'react';
 
 const Sidebar = () =>
@@ -26,7 +27,7 @@ const Sidebar = () =>
             icon: <TbIcons.TbChevronsUp/>,
         },
         {
-            title: 'Star Rewards',
+            title: 'Redeem Rewards',
             path: '/StarRewards',
             icon: <IoIcons.IoIosGift/>,
         },
@@ -34,6 +35,11 @@ const Sidebar = () =>
             title: 'Transactions/Logs',
             path: '/Logs',
             icon: <BiIcons.BiTransfer/>,
+        },
+        {
+            title: 'Manage Account',
+            path: '/Profile',
+            icon: <MdIcons.MdManageAccounts/>,
         },
     ]
 

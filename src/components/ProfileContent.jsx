@@ -1,15 +1,120 @@
 import React from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router'
+import { Modal, Button, Form } from 'react-bootstrap'
+import { useState } from 'react'
+import { useAuth } from '../contexts/Auth'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ProfileContent() {
+
+    const { user, token, updateUser, signOut} = useAuth()
+    const [errors, setErrors] = useState([])
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
+    const redirect = useNavigate()
+
+    const [changePassForm, setChagePassForm] = useState({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: ""
+    })
+
+    const clearData = () => {
+        setChagePassForm({
+            oldPassword: "",
+            newPassword: "",
+            confirmPassword: ""
+        })
+    }
+
+    const passwordOnChange = (e) => {
+        const { name, value } = e.target;
+        setChagePassForm({...changePassForm, [name]: value});
+    }
+
+    const chagePassword = async (e) => {
+        e.preventDefault();
+        try{
+            await axios.put(`${process.env.REACT_APP_API_URL}/changePassword`, changePassForm, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            await signOut()
+            redirect('/')
+            window.location.reload()
+        }
+        catch(e)
+        {
+            if(e.response.status === 400)
+            {
+                setErrors(e.response.data.errors);
+            }
+            if(e.response.status === 401)
+            {
+                toast.error(e.response.data.message);
+                handleClose();
+                clearData();
+            }
+            if(e.response.status === 402)
+            {
+                toast.error(e.response.data.message);
+                handleClose();
+                clearData();
+            }
+        }
+    }
+
+    const [formValues, setFormValues] = useState({
+        userName:user.userName,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        date_of_birth: user.date_of_birth,
+        contactInfo: user.contactInfo,
+        email: user.email
+    })
+
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues({...formValues, [name]: value });
+    }
+
+    const updateInfo = async (e) => {
+        e.preventDefault();
+        try{
+            const apiUpdate =  await axios.put(`${process.env.REACT_APP_API_URL}/updateInfo`, formValues, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            updateUser(apiUpdate.data.updateInfo)
+            toast.success("Updated Successfully")
+        }
+        catch(e)
+        {
+            if(e.response.status === 400)
+            {
+                toast.info(e.response.date.message)
+            }
+        }
+    }
+
 return (
     <div className="content-wrapper">
         <div className="container-xxl flex-grow-1 container-p-y">
-            <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">Account Settings /</span> Account</h4>
+            {/* <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">Account Settings /</span> Account</h4> */}
             <div className="row">
                 <div className="col-md-12">
                     <div className="card mb-4">
-                        <h5 className="card-header">Profile Details</h5>
-                        <div className="card-body">
+                        <div className='d-flex justify-content-between'>
+                            <h5 className="card-header">Manage Account Details</h5>
+                            <h5 className="card-header mt-0">Activation Code: <strong>{user.activationCode}</strong> </h5>
+                        </div>
+                        {/* <div className="card-body">
                             <div className="d-flex align-items-start align-items-sm-center gap-4">
                                 <img src={process.env.PUBLIC_URL + "/assets/img/avatars/1.png"}
                                     alt="user-avatar" className="d-block rounded" height="100" width="100"
@@ -29,134 +134,97 @@ return (
                                     <p className="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+                        <ToastContainer position='top-center' hideProgressBar='true'/>
                         <hr className="my-0" />
+                        <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Change Password</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form onSubmit={chagePassword} id='formAuthentication' className='mb-3'>
+                            <div className="mb-3">
+                                <Form.Control 
+                                    name="oldPassword" 
+                                    value={changePassForm["oldPassword"]}
+                                    onChange={passwordOnChange} 
+                                    type='text' id='oldPassword' className='form-control'
+                                    placeholder='Old Password'>
+                                </Form.Control>
+                                <span className='text-sm text-danger'>{errors.oldPassword}</span>
+                            </div>
+                            <div className="mb-3">
+                                <Form.Control name="newPassword" 
+                                    value={changePassForm["newPassword"]}
+                                    onChange={passwordOnChange} 
+                                    type='password' id='newPassword' className='form-control'
+                                    placeholder='New Password'>
+                                </Form.Control>
+                                <span className='text-sm text-danger'>{errors.newPassword}</span>
+                            </div>
+                            <div className="mb-3">
+                                <Form.Control 
+                                    name="confirmPassword" 
+                                    value={changePassForm["confirmPassword"]}
+                                    onChange={passwordOnChange} 
+                                    type='password' id='confirmPassword' className='form-control'
+                                    placeholder='Confirm Password'>
+                                </Form.Control>
+                                <span className='text-sm text-danger'>{errors.confirmPassword}</span>
+                            </div>
+                            <Button className='mx-1' variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button className='mx-1' variant="primary" type='submit'>
+                                Submit
+                            </Button>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
                         <div className="card-body">
-                            <form id="formAccountSettings" method="POST" onsubmit="return false">
+                            <Form onSubmit={updateInfo} id="formAccountSettings">
                                 <div className="row">
                                     <div className="mb-3 col-md-6">
-                                        <label for="firstName" className="form-label">First Name</label>
-                                        <input className="form-control" type="text" id="firstName" name="firstName"
-                                            value="John" autofocus />
+                                        <label for="firstName" className="form-label">Username</label>
+                                        <input className="form-control" type="text" id="userName" name="userName"
+                                            placeholder={user.userName} value={formValues["userName"]} onChange={onChange} autofocus />
                                     </div>
                                     <div className="mb-3 col-md-6">
-                                        <label for="lastName" className="form-label">Last Name</label>
-                                        <input className="form-control" type="text" name="lastName" id="lastName"
-                                            value="Doe" />
+                                        <label for="lastName" className="form-label">First Name</label>
+                                        <input className="form-control" type="text" name="firstName" id="firstName"
+                                            placeholder={user.firstName} value={formValues["firstName"]} onChange={onChange} />
                                     </div>
                                     <div className="mb-3 col-md-6">
-                                        <label for="email" className="form-label">E-mail</label>
-                                        <input className="form-control" type="text" id="email" name="email"
-                                            value="john.doe@example.com" placeholder="john.doe@example.com" />
+                                        <label for="email" className="form-label">Middle Name</label>
+                                        <input className="form-control" type="text" id="middleName" name="middleName"
+                                            placeholder={user.middleName} value={formValues["middleName"]} onChange={onChange} />
                                     </div>
                                     <div className="mb-3 col-md-6">
-                                        <label for="organization" className="form-label">Organization</label>
-                                        <input type="text" className="form-control" id="organization" name="organization"
-                                            value="ThemeSelection" />
+                                        <label for="email" className="form-label">Last Name</label>
+                                        <input className="form-control" type="text" id="lastName" name="lastName"
+                                            placeholder={user.lastName} value={formValues["lastName"]} onChange={onChange} />
                                     </div>
                                     <div className="mb-3 col-md-6">
-                                        <label className="form-label" for="phoneNumber">Phone Number</label>
-                                        <div className="input-group input-group-merge">
-                                            <span className="input-group-text">US (+1)</span>
-                                            <input type="text" id="phoneNumber" name="phoneNumber" className="form-control"
-                                                placeholder="202 555 0111" />
-                                        </div>
+                                        <label for="email" className="form-label">Date of birth</label>
+                                        <input className="form-control" type="date" id="date_of_birth" name="date_of_birth"
+                                            placeholder={user.date_of_birth} value={formValues["date_of_birth"]} onChange={onChange} />
                                     </div>
                                     <div className="mb-3 col-md-6">
-                                        <label for="address" className="form-label">Address</label>
-                                        <input type="text" className="form-control" id="address" name="address"
-                                            placeholder="Address" />
-                                    </div>
-                                    <div className="mb-3 col-md-6">
-                                        <label for="state" className="form-label">State</label>
-                                        <input className="form-control" type="text" id="state" name="state"
-                                            placeholder="California" />
-                                    </div>
-                                    <div className="mb-3 col-md-6">
-                                        <label for="zipCode" className="form-label">Zip Code</label>
-                                        <input type="text" className="form-control" id="zipCode" name="zipCode"
-                                            placeholder="231465" maxlength="6" />
-                                    </div>
-                                    <div className="mb-3 col-md-6">
-                                        <label className="form-label" for="country">Country</label>
-                                        <select id="country" className="select2 form-select">
-                                            <option value="">Select</option>
-                                            <option value="Australia">Australia</option>
-                                            <option value="Bangladesh">Bangladesh</option>
-                                            <option value="Belarus">Belarus</option>
-                                            <option value="Brazil">Brazil</option>
-                                            <option value="Canada">Canada</option>
-                                            <option value="China">China</option>
-                                            <option value="France">France</option>
-                                            <option value="Germany">Germany</option>
-                                            <option value="India">India</option>
-                                            <option value="Indonesia">Indonesia</option>
-                                            <option value="Israel">Israel</option>
-                                            <option value="Italy">Italy</option>
-                                            <option value="Japan">Japan</option>
-                                            <option value="Korea">Korea, Republic of</option>
-                                            <option value="Mexico">Mexico</option>
-                                            <option value="Philippines">Philippines</option>
-                                            <option value="Russia">Russian Federation</option>
-                                            <option value="South Africa">South Africa</option>
-                                            <option value="Thailand">Thailand</option>
-                                            <option value="Turkey">Turkey</option>
-                                            <option value="Ukraine">Ukraine</option>
-                                            <option value="United Arab Emirates">United Arab Emirates</option>
-                                            <option value="United Kingdom">United Kingdom</option>
-                                            <option value="United States">United States</option>
-                                        </select>
-                                    </div>
-                                    <div className="mb-3 col-md-6">
-                                        <label for="language" className="form-label">Language</label>
-                                        <select id="language" className="select2 form-select">
-                                            <option value="">Select Language</option>
-                                            <option value="en">English</option>
-                                            <option value="fr">French</option>
-                                            <option value="de">German</option>
-                                            <option value="pt">Portuguese</option>
-                                        </select>
-                                    </div>
-                                    <div className="mb-3 col-md-6">
-                                        <label for="timeZones" className="form-label">Timezone</label>
-                                        <select id="timeZones" className="select2 form-select">
-                                            <option value="">Select Timezone</option>
-                                            <option value="-12">(GMT-12:00) International Date Line West</option>
-                                            <option value="-11">(GMT-11:00) Midway Island, Samoa</option>
-                                            <option value="-10">(GMT-10:00) Hawaii</option>
-                                            <option value="-9">(GMT-09:00) Alaska</option>
-                                            <option value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
-                                            <option value="-8">(GMT-08:00) Tijuana, Baja California</option>
-                                            <option value="-7">(GMT-07:00) Arizona</option>
-                                            <option value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-                                            <option value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
-                                            <option value="-6">(GMT-06:00) Central America</option>
-                                            <option value="-6">(GMT-06:00) Central Time (US & Canada)</option>
-                                            <option value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
-                                            <option value="-6">(GMT-06:00) Saskatchewan</option>
-                                            <option value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
-                                            <option value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
-                                            <option value="-5">(GMT-05:00) Indiana (East)</option>
-                                            <option value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
-                                            <option value="-4">(GMT-04:00) Caracas, La Paz</option>
-                                        </select>
-                                    </div>
-                                    <div className="mb-3 col-md-6">
-                                        <label for="currency" className="form-label">Currency</label>
-                                        <select id="currency" className="select2 form-select">
-                                            <option value="">Select Currency</option>
-                                            <option value="usd">USD</option>
-                                            <option value="euro">Euro</option>
-                                            <option value="pound">Pound</option>
-                                            <option value="bitcoin">Bitcoin</option>
-                                        </select>
+                                        <label for="organization" className="form-label">Contact Information (Number)</label>
+                                        <input type="number" className="form-control" id="contactInfo" name="contactInfo"
+                                            placeholder={user.contactInfo} value={formValues["contactInfo"]} onChange={onChange} />
                                     </div>
                                 </div>
                                 <div className="mt-2">
-                                    <button type="submit" className="btn btn-primary me-2">Save changes</button>
-                                    <button type="reset" className="btn btn-outline-secondary">Cancel</button>
+                                    <Button variant="primary" className="me-2 my-2" type='submit'>
+                                        Save Changes
+                                    </Button>
+                                    <button type="button" onClick={handleShow} className="btn btn-warning">Change Password</button>
+                                    {/* <button type="reset" className="btn btn-outline-secondary">Cancel</button> */}
                                 </div>
-                            </form>
+                            </Form>
                         </div>
                     </div>
                 </div>

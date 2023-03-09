@@ -27,7 +27,6 @@ function StartupUI() {
         contactInfo: "",
         email: ""
     })
-
     const getUsers = async () => {
         setLoading(true)
             const apiUsers = await axios.get(`${process.env.REACT_APP_API_URL}/viewStartup`, {
@@ -70,6 +69,11 @@ function StartupUI() {
                 toast.error(e.response.data.message);
                 handleClose();
             }
+
+            if(e.response.status === 403){
+                toast.error(e.response.data.message);
+                handleClose();
+            }
         }
     }
     
@@ -105,8 +109,8 @@ return (
                                             {user.firstName} {user.middleName} {user.lastName}
                                         </strong>
                                     </p>
-                                    <p className="card-title">Activation Code: <strong>
-                                            {user.activationCode}
+                                    <p className="card-title">Username: <strong>
+                                            {user.userName}
                                         </strong>
                                     </p>
                                     <p className="card-title">Email: <strong>
@@ -139,7 +143,7 @@ return (
                             <div className="mb-3">
                                 <Form.Control 
                                     name="activationCode" 
-                                    value={formValues["name"]}
+                                    value={formValues["activationCode"]}
                                     onChange={onChange} 
                                     type='number' id='activeCode' className='form-control'
                                     placeholder='Activation Code'>

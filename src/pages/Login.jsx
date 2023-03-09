@@ -27,14 +27,19 @@ return (
                 <ToastContainer position='top-center' hideProgressBar='true' />
                 <Form onSubmit={signIn} id='formAuthentication' className='mb-3'>
                     <div className="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <Form.Control name="email" type='email' id='email' className='form-control' placeholder='example@gmail.com'
-                            onChange={onChange} value={formData["email"]} >
+                        <label for="email" class="form-label">Username</label>
+                        <Form.Control name="userName" type='text' id='userName' className='form-control' placeholder='Username'
+                            onChange={onChange} value={formData["userName"]} >
                         </Form.Control>
-                        <span className='text-sm text-danger'>{error.email}</span>
+                        <span className='text-sm text-danger'>{error.userName}</span>
                     </div>
                     <div className="mb-3 form-password-toggle">
-                        <label class="form-label" for="password">Password</label>
+                        <div className="d-flex justify-content-between">
+                            <label class="form-label" for="password">Password</label>
+                            <a href="/ForgotPassword">
+                                <small>Forgot Password?</small>
+                            </a>
+                        </div>
                         <div className="input-group input-group-merge">
                             <Form.Control name="password" type="password" id="password" className='form-control' 
                             placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" 

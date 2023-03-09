@@ -61,16 +61,25 @@ const DashboardUI = () => {
             getStartupReports();
             toast.success("Start-up Encashment Success");
             handleCloseStartup();
+            setFormValues({
+                encash:""
+            })
             // setErrors([]);
         }
         catch(e) {
             if(e.response.status === 401){
                 toast.error(e.response.data.message);
                 handleCloseStartup();
+                setFormValues({
+                    encash:""
+                })
             }
             if(e.response.status === 402){
                 toast.error(e.response.data.message);
                 handleCloseStartup();
+                setFormValues({
+                    encash:""
+                })
             }
         }
     }
@@ -86,16 +95,25 @@ const DashboardUI = () => {
             getGreatSaveReports();
             toast.success("Great Savings Encashment Success");
             handleCloseGreatSave();
+            setFormValues({
+                encash:""
+            })
             // setErrors([]);
         }
         catch(e) {
             if(e.response.status === 401){
                 toast.error(e.response.data.message);
                 handleCloseGreatSave();
+                setFormValues({
+                    encash:""
+                })
             }
             if(e.response.status === 402){
                 toast.error(e.response.data.message);
                 handleCloseGreatSave();
+                setFormValues({
+                    encash:""
+                })
             }
         }
     }

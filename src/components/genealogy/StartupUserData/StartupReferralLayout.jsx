@@ -60,8 +60,8 @@ function StartupReferralLayout() {
                                             {user.firstName} {user.middleName} {user.lastName}
                                         </strong>
                                     </p>
-                                    <p className="card-title">Activation Code: <strong>
-                                            {user.activationCode}
+                                    <p className="card-title">Username: <strong>
+                                            {user.userName}
                                         </strong>
                                     </p>
                                     <p className="card-title">Email: <strong>
