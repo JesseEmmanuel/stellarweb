@@ -76,6 +76,11 @@ export const AuthProvider = ({ children }) => {
     }
 
     const signOut = () => {
+        axios.get(`${process.env.REACT_APP_API_URL}/destroyToken`, {
+            headers : {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         localStorage.removeItem('token')
         localStorage.removeItem('user')
     } 

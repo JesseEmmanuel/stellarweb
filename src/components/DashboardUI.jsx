@@ -147,7 +147,6 @@ return (
                                         Your Total Stars as of today have reached <span className="fw-bold">{startupStars} points</span>. Keep up the good
                                         work!
                                     </p>
-                                    <a href="/" className="btn btn-sm btn-outline-warning">View Genealogy</a>
                                 </div>
                             </div>
                             <div className="col-sm-5 text-center text-sm-left">
@@ -223,6 +222,8 @@ return (
                         style={{backgroundImage:"linear-gradient(to bottom right, #FFAB00, #FFE368)"}}>
                         <h5 className="card-header text-white"><i className='bx bx-line-chart'></i> Start-Up Savings</h5>
                         <div className="card-body">
+                            <p className="badge bg-warning mb-4"><strong className="text-white">Cycle No: {user.cycle}</strong> 
+                            </p>
                             <p clas="mb-4"><strong className="text-white">Rebate Balance</strong> 
                             </p>
                             <h2>
@@ -265,6 +266,8 @@ return (
                         style={{backgroundImage:"linear-gradient(to bottom right, #696CFF, #B6B7FF)"}}>
                         <h5 className="card-header text-white"><i className='bx bxs-chevrons-up'></i> Great Savings</h5>
                         <div className="card-body">
+                            <p className="badge bg-primary"><strong className="text-white">Cycle No: {user.cycle}</strong> 
+                            </p>
                             <p><strong className="text-white">Rebate Balance</strong> 
                             </p>
                             <h2>

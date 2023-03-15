@@ -39,7 +39,7 @@ function Logs() {
     }
 
     const getRewardsLogs = async() => {
-        const apiRewards = await axios.get(`${process.env.REACT_APP_API_URL}/getRewards`, {
+        const apiRewards = await axios.get(`${process.env.REACT_APP_API_URL}/rewardLogs`, {
             headers: {
                 'Authorization' : `Bearer ${token}`
             }

@@ -11,7 +11,7 @@ const StartupReferralData = ({referrals, loading}) => {
                     <div className="card mb-3" id='gs-profile'>
                         <div className="row g-0">
                             <div className="col-md-4">
-                                <img className="card-img card-img-left" id='gs-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v3.png"} height={"100%"} alt="" />
+                                <img className="card-img card-img-left" id='gs-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v4.png"} height={"100%"} alt="" />
                             </div>
                             <div className="col-md-8">
                                 <div className="card-body" id='gs-card'>
@@ -26,7 +26,7 @@ const StartupReferralData = ({referrals, loading}) => {
                     <div className="card mb-3" id='gs-profile'>
                         <div className="row g-0">
                             <div className="col-md-4">
-                                <img className="card-img card-img-left" id='gs-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v3.png"} height={"100%"} alt="" />
+                                <img className="card-img card-img-left" id='gs-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v4.png"} height={"100%"} alt="" />
                             </div>
                             <div className="col-md-8">
                                 <div className="card-body" id='gs-card'>
@@ -41,7 +41,7 @@ const StartupReferralData = ({referrals, loading}) => {
                     <div className="card mb-3" id='gs-profile'>
                         <div className="row g-0">
                             <div className="col-md-4">
-                                <img className="card-img card-img-left" id='gs-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v3.png"} height={"100%"} alt="" />
+                                <img className="card-img card-img-left" id='gs-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v4.png"} height={"100%"} alt="" />
                             </div>
                             <div className="col-md-8">
                                 <div className="card-body" id='gs-card'>
@@ -56,7 +56,7 @@ const StartupReferralData = ({referrals, loading}) => {
                     <div className="card mb-3" id='gs-profile'>
                         <div className="row g-0">
                             <div className="col-md-4">
-                                <img className="card-img card-img-left" id='gs-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v3.png"} height={"100%"} alt="" />
+                                <img className="card-img card-img-left" id='gs-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v4.png"} height={"100%"} alt="" />
                             </div>
                             <div className="col-md-8">
                                 <div className="card-body" id='gs-card'>
@@ -80,7 +80,7 @@ const StartupReferralData = ({referrals, loading}) => {
                         <div className="card mb-3" id='sa-profile'>
                             <div className="row g-0">
                                 <div className="col-md-4">
-                                    <img className="card-img card-img-left" id='sa-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v3.png"} height={"100%"} alt="" />
+                                    <img className="card-img card-img-left" id='sa-avatar' src={process.env.PUBLIC_URL+ "/assets/img/sa_avatar_v4.png"} height={"100%"} alt="" />
                                 </div>
                                 <div className="col-md-8">
                                     <div className="card-body" id='sa-card'>

@@ -12,12 +12,20 @@ const Header = () => {
             Log Out
         </Tooltip>
     )
+
+    // const revokeToken = async () => {
+    //     await axios.get(`${process.env.REACT_APP_API_URL}/destroyToken`, {
+    //         headers : {
+    //             'Authorization' : `Bearer ${token}`
+    //         }
+    //     })
+    // }
+
     const handleSignout = async (e) => {
-        e.preventDefault() 
-        
-        await signOut()
+        e.preventDefault()
+        signOut()
         redirect('/')
-        window.location.reload()
+        // window.location.reload()
     }
 
     return (
